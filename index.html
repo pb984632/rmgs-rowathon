@@ -357,7 +357,12 @@ MS={id:id,tenant:$("mst").value.trim(),link:l,tab:$("msw").value.trim()};try{loc
 $("shm").textContent="Opening Microsoft sign-in…";
 msLib(function(){msInit();msApp.loginPopup({scopes:MSC}).then(function(r){msAcc=r.account;SHDATA="ms";SH=[];E=SH;ST="Microsoft: reading…";draw();$("ov3").style.display="none";msRun(true)}).catch(function(e){$("shm").textContent="Sign-in failed: "+cs(e&&e.message||e).slice(0,170)})})};
 $("shd").onclick=function(){SHDATA="";SH=[];E=ME;FIN=null;msAcc=null;MS={id:"",tenant:"",link:"",tab:""};try{localStorage.removeItem(SHK);localStorage.removeItem(MSK)}catch(e){}ST="";draw();$("ov3").style.display="none"};
-draw();
+setInterval(function(){
+    if(SHDATA==="ms" && msAcc){
+        msRun(false);
+    }
+},30000);
+  draw();
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
 </script>
