@@ -212,7 +212,11 @@ if(SHDATA){var r0=parseSheet(SHDATA);if(r0){SH=r0;E=SH;ST="From Excel · saved c
 // ---- Microsoft sign-in (Microsoft Graph, read-only) ----
 function msLib(cb){if(window.msal)return cb();var sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js";sc.onload=cb;sc.onerror=function(){ST="⚠ Couldn’t load the Microsoft sign-in library";$("shm").textContent=ST;draw()};document.head.appendChild(sc)}
 function msInit(){msApp=new msal.PublicClientApplication({auth:{clientId:MS.id,authority:"https://login.microsoftonline.com/"+(MS.tenant||"organizations"),redirectUri:location.origin+location.pathname.replace(/index\.html$/,"")},cache:{cacheLocation:"localStorage"}})}
-var MSC=["Files.Read.All"];
+var MSC=[
+  "User.Read",
+  "Files.Read.All",
+  "Sites.Read.All"
+];
 function shareId(u){return "u!"+btoa(unescape(encodeURIComponent(u.trim()))).replace(/=+$/,"").replace(/\//g,"_").replace(/\+/g,"-")}
 function graph(path,tok){return fetch("https://graph.microsoft.com/v1.0"+path,{headers:{Authorization:"Bearer "+tok}}).then(function(r){return r.ok?r.json():r.text().then(function(t){throw new Error("Microsoft said "+r.status+": "+t.slice(0,140))})})}
 function msRun(interactive){var rq={scopes:MSC,account:msAcc};
