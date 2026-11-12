@@ -305,14 +305,6 @@ function msRun(interactive){
             {type:"array"}
         );
 
-        console.log("Workbook:");
-
-        console.log(wb);
-
-        console.log("Sheets:");
-
-        console.log(wb.SheetNames);
-
         var sheetName =
             wb.SheetNames[0];
 
@@ -325,12 +317,17 @@ function msRun(interactive){
                 }
             );
 
-        console.log("Rows:");
+        var r = parseRows(rows);
 
-        console.log(rows);
+        if(!r){
+            throw new Error(
+                "Couldn't find the rower columns."
+            );
+        }
 
-        throw new Error(
-            "Workbook loaded successfully. Check the browser console."
+        applyRows(
+            r,
+            "Live from Microsoft"
         );
 
     })
