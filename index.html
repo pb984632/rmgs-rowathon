@@ -218,7 +218,21 @@ var MSC=[
   "Sites.Read.All"
 ];
 function shareId(u){return "u!"+btoa(unescape(encodeURIComponent(u.trim()))).replace(/=+$/,"").replace(/\//g,"_").replace(/\+/g,"-")}
-function graph(path,tok){return fetch("https://graph.microsoft.com/v1.0"+path,{headers:{Authorization:"Bearer "+tok}}).then(function(r){return r.ok?r.json():r.text().then(function(t){throw new Error("Microsoft said "+r.status+": "+t.slice(0,140))})})}
+function graph(path,tok){
+  return fetch("https://graph.microsoft.com/v1.0"+path,{
+    headers:{
+      Authorization:"Bearer "+tok
+    }
+  }).then(function(r){
+    return r.ok
+      ? r.json()
+      : r.text().then(function(t){
+          throw new Error(
+            "Microsoft said " + r.status + ": " + t
+          );
+        });
+  });
+}
 function msRun(interactive){var rq={scopes:MSC,account:msAcc};
 return msApp.acquireTokenSilent(rq).catch(function(e){if(!interactive)throw new Error("Sign-in expired. Open Update and sign in again.");return msApp.acquireTokenPopup(rq)}).then(function(t){
 var base="/shares/"+shareId(MS.link)+"/driveItem/workbook/worksheets";
