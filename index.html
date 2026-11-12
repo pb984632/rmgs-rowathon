@@ -298,18 +298,23 @@ function msRun(interactive){
 
     })
 
-    .then(function(buf){
+.then(function(buf){
 
         var wb = XLSX.read(
             buf,
             {type:"array"}
         );
 
+        console.log("Workbook:");
+
+        console.log(wb);
+
+        console.log("Sheets:");
+
+        console.log(wb.SheetNames);
+
         var sheetName =
-            MS.tab &&
-            wb.Sheets[MS.tab]
-            ? MS.tab
-            : wb.SheetNames[0];
+            wb.SheetNames[0];
 
         var rows =
             XLSX.utils.sheet_to_json(
@@ -320,17 +325,12 @@ function msRun(interactive){
                 }
             );
 
-        var r = parseRows(rows);
+        console.log("Rows:");
 
-        if(!r){
-            throw new Error(
-                "Couldn't find Rower columns."
-            );
-        }
+        console.log(rows);
 
-        applyRows(
-            r,
-            "Live from Microsoft"
+        throw new Error(
+            "Workbook loaded successfully. Check the browser console."
         );
 
     })
